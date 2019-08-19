@@ -10,6 +10,7 @@ import re
 import seaborn as sns
 import numpy as np
 import pandas as pd
+import webbrowser
 #import json
 from googletrans import Translator
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
@@ -152,8 +153,26 @@ def word_cloud(wd_list):
         max_font_size=200).generate(all_words)
     plt.figure(figsize=(12, 10))
     plt.axis('off')
-    plt.imshow(wordcloud, interpolation="bilinear");
+    plt.imshow(wordcloud, interpolation="bilinear")
+    wordcloud.to_file("img/kaltimkece.png");
 
 word_cloud(tw_kk['clean_vector'])
 word_cloud(tw_kk['clean_vector'][tw_kk['sentiment'] == 1])
 word_cloud(tw_kk['clean_vector'][tw_kk['sentiment'] == -1])
+
+f = open('kaltimkece.html','w')
+img = 'img/kaltimkece.png'
+
+message = """<html>
+<head></head>
+<body>
+<p>Tampilkan gambar</p>
+<img src="%s"></img>
+</body>
+</html>"""
+
+whole = message % (img)
+f.write(whole)
+f.close()
+
+webbrowser.open_new_tab('kaltimkece.html')
